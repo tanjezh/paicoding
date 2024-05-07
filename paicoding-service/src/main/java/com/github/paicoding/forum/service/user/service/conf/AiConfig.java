@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
+ * AI交互配置（包含最大交互次数以及AI交互模型）
  * @author YiHui
  * @date 2023/6/29
  */

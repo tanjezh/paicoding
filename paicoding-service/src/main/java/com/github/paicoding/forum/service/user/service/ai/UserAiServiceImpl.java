@@ -30,6 +30,12 @@ public class UserAiServiceImpl implements UserAiService {
     @Resource
     private AiConfig aiConfig;
 
+    /**
+     * 保存用户AI查询历史
+     * @param source AI资源类型
+     * @param user  用户
+     * @param item  AI交互信息（用户问题-AI回答）
+     */
     @Override
     public void pushChatItem(AISourceEnum source, Long user, ChatItemVo item) {
         UserAiHistoryDO userAiHistoryDO = new UserAiHistoryDO();
@@ -85,6 +91,10 @@ public class UserAiServiceImpl implements UserAiService {
         return cnt;
     }
 
+    /**
+     * 初始化或者更新AI交互信息
+     * @param loginReq
+     */
     @Override
     public void initOrUpdateAiInfo(UserPwdLoginReq loginReq) {
         // 之前已经检查过编号是否已经被绑定过了，那我们直接进行绑定

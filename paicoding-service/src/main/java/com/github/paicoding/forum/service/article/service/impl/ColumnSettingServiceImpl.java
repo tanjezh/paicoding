@@ -60,6 +60,10 @@ public class ColumnSettingServiceImpl implements ColumnSettingService {
     @Autowired
     private ColumnStructMapper columnStructMapper;
 
+    /**
+     * 如果专栏id为null或者0，则插入数据，否则进行更新操作
+     * @param req
+     */
     @Override
     public void saveColumn(ColumnReq req) {
         ColumnInfoDO columnInfoDO = columnStructMapper.toDo(req);

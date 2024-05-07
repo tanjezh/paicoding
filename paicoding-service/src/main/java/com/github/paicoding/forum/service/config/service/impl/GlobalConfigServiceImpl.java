@@ -81,6 +81,7 @@ public class GlobalConfigServiceImpl implements GlobalConfigService {
         req.setKeywords(key);
 
         GlobalConfigDO config = configDao.getGlobalConfigByKey(key);
+        // 如果数据库没找到key对应的敏感词，则添加对应key的敏感词，否则在原来的敏感词配置里拼接上新的敏感词
         if (config == null) {
             req.setValue(word);
             req.setComment("敏感词白名单");

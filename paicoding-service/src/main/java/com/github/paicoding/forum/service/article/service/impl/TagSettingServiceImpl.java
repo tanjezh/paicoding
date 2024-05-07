@@ -34,6 +34,10 @@ public class TagSettingServiceImpl implements TagSettingService {
     @Autowired
     private TagDao tagDao;
 
+    /**
+     * 如果tagId为null或0，插入数据，否则进行更新。并删除redis缓存
+     * @param tagReq
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveTag(TagReq tagReq) {
@@ -81,6 +85,11 @@ public class TagSettingServiceImpl implements TagSettingService {
         }
     }
 
+    /**
+     * 根据传入的参数获取所有tag数据，统计其数量，并封装成page对象
+     * @param req
+     * @return
+     */
     @Override
     public PageVo<TagDTO> getTagList(SearchTagReq req) {
         // 转换
@@ -91,6 +100,11 @@ public class TagSettingServiceImpl implements TagSettingService {
         return PageVo.build(tagDTOS, params.getPageSize(), params.getPageNum(), totalCount);
     }
 
+    /**
+     * 根据tagId首先从缓存获取tag信息，如果没有则从数据库获取并添加到redis缓存中
+     * @param tagId
+     * @return
+     */
     @Override
     public TagDTO getTagById(Long tagId) {
 

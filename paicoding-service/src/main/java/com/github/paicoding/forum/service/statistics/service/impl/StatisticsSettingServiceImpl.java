@@ -46,6 +46,10 @@ public class StatisticsSettingServiceImpl implements StatisticsSettingService {
     @Resource
     private AiConfig aiConfig;
 
+    /**
+     * 保存host主机发来的request请求数，如果数据库中已经有了则进行更新
+     * @param host
+     */
     @Override
     public void saveRequestCount(String host) {
         RequestCountDO requestCountDO = requestCountService.getRequestCount(host);

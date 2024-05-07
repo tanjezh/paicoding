@@ -32,6 +32,10 @@ public class CategorySettingServiceImpl implements CategorySettingService {
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * 分类id为null或0，则是插入分类，否则执行更新方法。刷新缓存
+     * @param categoryReq
+     */
     @Override
     public void saveCategory(CategoryReq categoryReq) {
         CategoryDO categoryDO = CategoryStructMapper.INSTANCE.toDO(categoryReq);
@@ -53,6 +57,11 @@ public class CategorySettingServiceImpl implements CategorySettingService {
         categoryService.refreshCache();
     }
 
+    /**
+     *
+     * @param categoryId 分类id
+     * @param pushStatus 更新分类状态
+     */
     @Override
     public void operateCategory(Integer categoryId, Integer pushStatus) {
         CategoryDO categoryDO = categoryDao.getById(categoryId);
@@ -67,7 +76,7 @@ public class CategorySettingServiceImpl implements CategorySettingService {
     public PageVo<CategoryDTO> getCategoryList(SearchCategoryReq req) {
         // 转换
         SearchCategoryParams params = CategoryStructMapper.INSTANCE.toSearchParams(req);
-        // 查询
+        // 查询出给定参数的分类数量
         List<CategoryDTO> categoryDTOS = categoryDao.listCategory(params);
         Long totalCount = categoryDao.countCategory(params);
         return PageVo.build(categoryDTOS, params.getPageSize(), params.getPageNum(), totalCount);

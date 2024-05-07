@@ -28,6 +28,12 @@ public class UserDao extends ServiceImpl<UserInfoMapper, UserInfoDO> {
     @Resource
     private UserMapper userMapper;
 
+    /**
+     * 查询大于userId的用户数据，限制size条数据
+     * @param userId 用户id
+     * @param size 显示的数据的大小
+     * @return
+     */
     public List<Long> scanUserId(Long userId, Integer size) {
         return userMapper.getUserIdsOrderByIdAsc(userId, size == null ? PageParam.DEFAULT_PAGE_SIZE : size);
     }

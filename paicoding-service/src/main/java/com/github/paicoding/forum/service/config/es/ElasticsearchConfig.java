@@ -62,6 +62,7 @@ public class ElasticsearchConfig {
 
 
     /**
+     * 构建和es服务端的连接
      * 如果@Bean没有指定bean的名称，那么这个bean的名称就是方法名
      */
     @Bean(name = "restHighLevelClient")

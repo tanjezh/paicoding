@@ -31,12 +31,14 @@ public class UserPwdEncoder {
     /**
      * 明文密码处理
      *
-     * @param plainPwd
-     * @return
+     * @param plainPwd 明文密码
+     * @return 通过MD5把加了盐值的密码转成16进制数据
      */
     public String encPwd(String plainPwd) {
+        // 如果明文密码长度大于盐值索引位，则把盐值放到明文密码中间
         if (plainPwd.length() > saltIndex) {
             plainPwd = plainPwd.substring(0, saltIndex) + salt + plainPwd.substring(saltIndex);
+        // 否则把盐值放在明文密码最后
         } else {
             plainPwd = plainPwd + salt;
         }
