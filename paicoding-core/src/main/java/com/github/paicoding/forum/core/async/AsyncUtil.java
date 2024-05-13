@@ -58,6 +58,12 @@ public class AsyncUtil {
         initExecutorService(Runtime.getRuntime().availableProcessors() * 2, 50);
     }
 
+    /**
+     * 构建线程池 ExecutorService
+     *
+     * @param core
+     * @param max
+     */
     public static void initExecutorService(int core, int max) {
         // 异步工具类的默认线程池构建, 参数选择原则:
         //  1. 技术派不存在cpu密集型任务，大部分操作都设计到 redis/mysql 等io操作
@@ -128,8 +134,11 @@ public class AsyncUtil {
 
 
     public static class CompletableFutureBridge implements Closeable {
+        // 异步任务列表
         private List<CompletableFuture> list;
+        // 每个异步任务对应的耗时
         private Map<String, Long> cost;
+        // 任务名
         private String taskName;
         private boolean markOver;
         private ExecutorService executorService;
@@ -227,10 +236,18 @@ public class AsyncUtil {
             return this;
         }
 
+        /**
+         * 任务开始执行的时间戳
+         * @param name 任务名
+         */
         private void startRecord(String name) {
             cost.put(name, System.currentTimeMillis());
         }
 
+        /**
+         * 把时间戳更新成任务执行耗时 ms
+         * @param name
+         */
         private void endRecord(String name) {
             long now = System.currentTimeMillis();
             long last = cost.getOrDefault(name, now);
@@ -292,6 +309,12 @@ public class AsyncUtil {
         }
     }
 
+    /**
+     * 根据 name 构建异步任务
+     *
+     * @param name
+     * @return 异步任务桥接类
+     */
     public static CompletableFutureBridge concurrentExecutor(String... name) {
         if (name.length > 0) {
             return new CompletableFutureBridge(AsyncUtil.executorService, name[0]);

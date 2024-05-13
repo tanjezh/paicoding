@@ -19,6 +19,12 @@ public class IndexController extends BaseViewController {
     @Autowired
     private IndexRecommendHelper indexRecommendHelper;
 
+    /**
+     * 首页请求
+     * @param model
+     * @param request
+     * @return
+     */
     @GetMapping(path = {"/", "", "/index", "/login"})
     public String index(Model model, HttpServletRequest request) {
         String activeTab = request.getParameter("category");
