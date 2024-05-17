@@ -39,7 +39,7 @@ public interface LoginService {
      *
      * @param username 用户名
      * @param password 密码
-     * @return
+     * @return token 信息
      */
     String loginByUserPwd(String username, String password);
 
@@ -47,7 +47,7 @@ public interface LoginService {
      * 注册登录，并绑定对应的星球、邀请码
      *
      * @param loginReq 登录信息
-     * @return
+     * @return token 信息
      */
     String registerByUserPwd(UserPwdLoginReq loginReq);
 }

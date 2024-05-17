@@ -217,14 +217,14 @@ public class ReqRecordFilter implements Filter {
     /**
      * 初始化设备id
      *
-     * @return
+     * @return 设备Id
      */
     private String getOrInitDeviceId(HttpServletRequest request, HttpServletResponse response) {
         String deviceId = request.getParameter("deviceId");
         if (StringUtils.isNotBlank(deviceId) && !"null".equalsIgnoreCase(deviceId)) {
             return deviceId;
         }
-
+        // 请求中没有携带 deviceId 参数，从 cookie 中获取 deviceId，如果没有则随机生成一个并存入 response 的 cookie 中
         Cookie device = SessionUtil.findCookieByName(request, LoginService.USER_DEVICE_KEY);
         if (device == null) {
             deviceId = UUID.randomUUID().toString();

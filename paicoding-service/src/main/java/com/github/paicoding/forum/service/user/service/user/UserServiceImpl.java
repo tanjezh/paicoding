@@ -97,6 +97,13 @@ public class UserServiceImpl implements UserService {
         userDao.updateUserInfo(userInfoDO);
     }
 
+    /**
+     * 获取登录的用户信息,并更新对应的ip信息
+     *
+     * @param session  用户会话
+     * @param clientIp 用户最新的登录ip
+     * @return 返回用户基本信息
+     */
     @Override
     public BaseUserInfoDTO getAndUpdateUserIpInfoBySessionId(String session, String clientIp) {
         if (StringUtils.isBlank(session)) {
@@ -124,6 +131,7 @@ public class UserServiceImpl implements UserService {
                 ip.setFirstIp(clientIp);
                 ip.setFirstRegion(ip.getLatestRegion());
             }
+            user.setIp(ip);
             userDao.updateById(user);
         }
 
@@ -209,6 +217,12 @@ public class UserServiceImpl implements UserService {
         return this.userDao.getUserCount();
     }
 
+    /**
+     * 通过 loginReq 判断用户名是否存在，如果存在则更新数据库的用户名和密码
+     * 如果不存在进行创建操作，最后进行更新 ai 的相关信息
+     *
+     * @param loginReq 登录请求信息
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void bindUserInfo(UserPwdLoginReq loginReq) {
@@ -218,7 +232,9 @@ public class UserServiceImpl implements UserService {
             // 用户名不存在，则标识当前登录用户可以使用这个用户名
             user = new UserDO();
             user.setId(loginReq.getUserId());
-        } else if (!Objects.equals(loginReq.getUserId(), user.getId())) {
+        }
+        // 当前登录的用户 id 标识和用户名获取的数据库用户 id 标识不同，抛出异常
+        else if (!Objects.equals(loginReq.getUserId(), user.getId())) {
             // 登录用户名已经存在了
             throw ExceptionUtil.of(StatusEnum.USER_LOGIN_NAME_REPEAT, loginReq.getUsername());
         }

@@ -41,7 +41,7 @@ public interface UserService {
     void saveUserInfo(UserInfoSaveReq req);
 
     /**
-     * 获取登录的用户信息,并更行丢对应的ip信息
+     * 获取登录的用户信息,并更新对应的ip信息
      *
      * @param session  用户会话
      * @param clientIp 用户最新的登录ip

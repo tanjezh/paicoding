@@ -29,6 +29,12 @@ public class JsonUtil {
         }
     }
 
+    /**
+     * 把任意类型 T 转成字符串
+     * @param t
+     * @return
+     * @param <T>
+     */
     public static <T> String toStr(T t) {
         try {
             return jsonMapper.writeValueAsString(t);

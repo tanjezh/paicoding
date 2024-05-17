@@ -64,6 +64,7 @@ public class GlobalInitService {
         vo.setSiteStatisticInfo(sitemapService.querySiteVisitInfo(null, null));
         vo.setTodaySiteStatisticInfo(sitemapService.querySiteVisitInfo(LocalDate.now(), null));
 
+        // seo 相关数据
         if (ReqInfoContext.getReqInfo() == null || ReqInfoContext.getReqInfo().getSeo() == null || CollectionUtils.isEmpty(ReqInfoContext.getReqInfo().getSeo().getOgp())) {
             Seo seo = seoInjectService.defaultSeo();
             vo.setOgp(seo.getOgp());
@@ -106,6 +107,7 @@ public class GlobalInitService {
     public void initLoginUser(ReqInfoContext.ReqInfo reqInfo) {
         HttpServletRequest request =
                 ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        // 没有 cookie 信息直接返回
         if (request.getCookies() == null) {
             return;
         }
@@ -113,8 +115,15 @@ public class GlobalInitService {
                 .ifPresent(cookie -> initLoginUser(cookie.getValue(), reqInfo));
     }
 
+    /**
+     * 根据 session 获取用户信息，并设置到当前请求上下文的 reqInfo 数据里
+     *
+     * @param session 用户的 token 信息
+     * @param reqInfo 请求上下文中的相关请求信息
+     */
     public void initLoginUser(String session, ReqInfoContext.ReqInfo reqInfo) {
         BaseUserInfoDTO user = userService.getAndUpdateUserIpInfoBySessionId(session, null);
+        // 设置 session
         reqInfo.setSession(session);
         if (user != null) {
             reqInfo.setUserId(user.getUserId());

@@ -180,6 +180,11 @@ public class SeoInjectService {
     }
 
 
+    /**
+     * 默认的 SEO 相关数据
+     *
+     * @return
+     */
     public Seo defaultSeo() {
         Seo seo = initBasicSeoTag();
         List<SeoTagVo> list = seo.getOgp();

@@ -37,6 +37,12 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private UserAiDao userAiDao;
 
+    /**
+     * 通过用户名/密码进行注册
+     *
+     * @param loginReq
+     * @return 用户Id标识
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long registerByUserNameAndPassword(UserPwdLoginReq loginReq) {
@@ -55,16 +61,18 @@ public class RegisterServiceImpl implements RegisterService {
         user.setLoginType(LoginTypeEnum.USER_PWD.getType());
         userDao.saveUser(user);
 
-        // 3. 保存用户信息
+        // 3. 保存用户名和头像等信息
         UserInfoDO userInfo = new UserInfoDO();
         userInfo.setUserId(user.getId());
         userInfo.setUserName(loginReq.getUsername());
         userInfo.setPhoto(UserRandomGenHelper.genAvatar());
         userDao.save(userInfo);
 
-        // 4. 保存ai相互信息
+        // 4. 保存ai交互信息
         UserAiDO userAiDO = UserAiConverter.initAi(user.getId(), loginReq.getStarNumber());
         userAiDao.saveOrUpdateAiBindInfo(userAiDO, loginReq.getInvitationCode());
+
+        // 用户注册完之后的事件处理
         processAfterUserRegister(user.getId());
         return user.getId();
     }

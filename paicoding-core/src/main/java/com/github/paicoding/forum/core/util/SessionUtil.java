@@ -16,10 +16,24 @@ import java.util.List;
 public class SessionUtil {
     private static final int COOKIE_AGE = 30 * 86400;
 
+    /**
+     * 构建 cookie
+     * @param key 键
+     * @param session 值
+     * @return cookie 信息
+     */
     public static Cookie newCookie(String key, String session) {
         return newCookie(key, session, "/", COOKIE_AGE);
     }
 
+    /**
+     * 构建 cookie 的具体方法
+     * @param key 键
+     * @param session 值
+     * @param path 路径
+     * @param maxAge 过期时间
+     * @return cookie 信息
+     */
     public static Cookie newCookie(String key, String session, String path, int maxAge) {
         Cookie cookie = new Cookie(key, session);
         cookie.setPath(path);
@@ -28,10 +42,22 @@ public class SessionUtil {
     }
 
 
+    /**
+     * 删除 key 对应的 cookie 内容
+     *
+     * @param key 表示 cookie 的键
+     * @return
+     */
     public static Cookie delCookie(String key) {
         return delCookie(key, "/");
     }
 
+    /**
+     * 删除 key 对应的 cookie 内容的具体方法
+     *
+     * @param key 表示 cookie 的键
+     * @return
+     */
     public static Cookie delCookie(String key, String path) {
         Cookie cookie = new Cookie(key, null);
         cookie.setPath("/");
@@ -44,7 +70,7 @@ public class SessionUtil {
      *
      * @param request
      * @param name
-     * @return
+     * @return 返回 name 对应的 cookie 信息
      */
     public static Cookie findCookieByName(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
@@ -56,7 +82,12 @@ public class SessionUtil {
                 .findFirst().orElse(null);
     }
 
-
+    /**
+     * 获取请求头中指定 name 对应的 cookie 值
+     * @param request
+     * @param name
+     * @return cookie 的值
+     */
     public static String findCookieByName(ServerHttpRequest request, String name) {
         List<String> list = request.getHeaders().get("cookie");
         if (CollectionUtils.isEmpty(list)) {

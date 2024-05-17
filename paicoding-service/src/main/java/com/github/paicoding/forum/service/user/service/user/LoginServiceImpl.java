@@ -98,7 +98,7 @@ public class LoginServiceImpl implements LoginService {
      *
      * @param username 用户名
      * @param password 密码
-     * @return
+     * @return token 信息
      */
     public String loginByUserPwd(String username, String password) {
         UserDO user = userDao.getUserByUserName(username);
@@ -124,7 +124,7 @@ public class LoginServiceImpl implements LoginService {
      * 用户名密码方式登录，若用户不存在，则进行注册
      *
      * @param loginReq 登录信息
-     * @return
+     * @return 返回 token 信息
      */
     @Override
     public String registerByUserPwd(UserPwdLoginReq loginReq) {
@@ -163,7 +163,8 @@ public class LoginServiceImpl implements LoginService {
 
 
     /**
-     * 注册前置校验
+     * 注册前置校验 <br>
+     * 1 用户名和密码非空校验；2 判断知识星球编号是否正确，或是否已经被绑定；3 验证邀请码的合法性
      *
      * @param loginReq
      */

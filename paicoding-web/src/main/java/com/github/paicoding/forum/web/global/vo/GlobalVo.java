@@ -24,7 +24,7 @@ public class GlobalVo {
     private SiteCntVo siteStatisticInfo;
 
     /**
-     * 今日的站点统计想你洗
+     * 今日的站点统计信息
      */
     private SiteCntVo todaySiteStatisticInfo;
 

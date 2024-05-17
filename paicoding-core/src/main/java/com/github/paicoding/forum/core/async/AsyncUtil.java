@@ -257,6 +257,13 @@ public class AsyncUtil {
             }
         }
 
+        /**
+         * 打印异步任务的耗时情况统计 <br>
+         *  <p> ms         %     Task name </p> <br>
+         *  <p> 1         0.01   任务1 </p> <br>
+         *  <p> 2         0.02   任务2 </p>
+         *
+         */
         public void prettyPrint() {
             if (EnvUtil.isPro()) {
                 // 生产环境默认不打印执行耗时日志

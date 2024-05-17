@@ -15,6 +15,11 @@ import java.security.Principal;
 public class ReqInfoContext {
     private static ThreadLocal<ReqInfo> contexts = new InheritableThreadLocal<>();
 
+    /**
+     * 把 reqInfo 放到本地线程上下文中
+     *
+     * @param reqInfo
+     */
     public static void addReqInfo(ReqInfo reqInfo) {
         contexts.set(reqInfo);
     }

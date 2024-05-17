@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 注入全局的配置信息：
- * - thymleaf 站点信息，基本信息，在这里注入
+ * - thymeleaf 站点信息，基本信息，在这里注入
  *
  * @author yihui
  * @date 2022/6/15
@@ -38,6 +38,15 @@ public class GlobalViewInterceptor implements AsyncHandlerInterceptor {
     @Autowired
     private GlobalInitService globalInitService;
 
+    /**
+     * 全局的拦截前置处理，记录用户的活跃度，设置 ContentType 以及判断用户权限等
+     *
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler instanceof HandlerMethod) {
@@ -80,6 +89,15 @@ public class GlobalViewInterceptor implements AsyncHandlerInterceptor {
         return true;
     }
 
+    /**
+     * 全局的拦截后置处理
+     *
+     * @param request
+     * @param response
+     * @param handler
+     * @param modelAndView
+     * @throws Exception
+     */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (!ObjectUtils.isEmpty(modelAndView)) {
